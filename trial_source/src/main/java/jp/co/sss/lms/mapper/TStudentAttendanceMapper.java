@@ -65,4 +65,14 @@ public interface TStudentAttendanceMapper {
 	 */
 	Boolean update(TStudentAttendance tStudentAttendance);
 
+	/**
+	 * 過去日付の出勤時間または退勤時間が未入力であるレコード数を取得
+	 * @author 村田智大 - Task.25
+	 * @param lmsUserId LMSのユーザーID
+	 * @param deleteFlg 削除フラグ
+	 * @param trainingDate 現在日時
+	 * @return レコード数
+	 */
+	Integer getTrainingTimeEmptyCount(@Param("lmsUserId") Integer lmsUserId,
+			@Param("deleteFlg") Short deleteFlg, @Param("trainingDate") Date trainingDate);
 }

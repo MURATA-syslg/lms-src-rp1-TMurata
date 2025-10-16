@@ -1,6 +1,7 @@
 package jp.co.sss.lms.service;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -334,4 +335,31 @@ public class StudentAttendanceService {
 		return messageUtil.getMessage(Constants.PROP_KEY_ATTENDANCE_UPDATE_NOTICE);
 	}
 
+	/**
+	 * 過去日付の出勤時間または退勤時間が未入力のものがあるか確認
+	 * @author 村田智大 - Task.25
+	 * @param lmsUserId LMSのユーザーID
+	 * @return 未入力の有無
+	 */
+	public boolean isTrainingTimeEmpty(Integer lmsUserId) {
+		// フォーマットパターンを設定
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/M/d");
+		Date trainingDate;
+		
+		try {
+			// 現在日付をフォーマットパターンに沿った形式に整形
+			trainingDate = sdf.parse(sdf.format(new Date()));
+		} catch (ParseException e) {
+			throw new IllegalStateException();
+		}
+		
+		// 過去日付の出勤時間または退勤時間が未入力であるレコード数を取得
+		int trainingTimeEmptyCount = tStudentAttendanceMapper.getTrainingTimeEmptyCount(lmsUserId, Constants.DB_FLG_FALSE, trainingDate);
+		
+		if (trainingTimeEmptyCount > 0) {
+			return true;
+		}
+		
+		return false;
+	}
 }

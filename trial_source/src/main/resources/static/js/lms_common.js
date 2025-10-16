@@ -240,3 +240,7 @@ $(function(){
       }
 
 });
+// 村田智大 - Task.25
+function showTraingTimeEmptyAlert(){
+	alert("過去日の勤怠に未入力があります。");
+}

@@ -88,5 +88,11 @@
 		}
 	</script>
 
+	<!-- 村田智大 - Task.25 -->
+	<p th:if="${isTrainingTimeEmpty}">
+		<script>
+			window.onload = showTraingTimeEmptyAlert;
+		</script>
+	</p>
 </body>
 </html>
