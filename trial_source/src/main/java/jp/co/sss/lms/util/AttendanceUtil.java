@@ -147,4 +147,25 @@ public class AttendanceUtil {
 		return false;
 	}
 
+	public LinkedHashMap<Integer, String> setHourMap() {
+		LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+		map.put(null, "");
+		for (int i = 0; i < 24; i++) {
+			String hour;
+			hour = String.format("%02d", i);
+			map.put(i, hour);
+		}
+		return map;
+	}
+	
+	public LinkedHashMap<Integer, String> setMinuteMap() {
+		LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+		map.put(null, "");
+		for (int i = 0; i < 60 ; i++) {
+			String minute;
+			minute = String.format("%02d", i);
+			map.put(i, minute);
+		}
+		return map;
+	}
 }

@@ -47,4 +47,7 @@ public class DailyAttendanceForm {
 	/** インデックス */
 	private String index;
 
+	private String trainingStartTimeHH;
+	
+	private String trainingStartTimeMM;
 }

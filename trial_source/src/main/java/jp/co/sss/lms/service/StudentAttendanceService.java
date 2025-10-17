@@ -1,7 +1,6 @@
 package jp.co.sss.lms.service;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -220,6 +219,9 @@ public class StudentAttendanceService {
 		attendanceForm.setUserName(loginUserDto.getUserName());
 		attendanceForm.setLeaveFlg(loginUserDto.getLeaveFlg());
 		attendanceForm.setBlankTimes(attendanceUtil.setBlankTime());
+		
+		attendanceForm.setHourMaps(attendanceUtil.setHourMap());
+		attendanceForm.setMinuteMaps(attendanceUtil.setMinuteMap());
 
 		// 途中退校している場合のみ設定
 		if (loginUserDto.getLeaveDate() != null) {
@@ -238,6 +240,14 @@ public class StudentAttendanceService {
 					.setTrainingDate(dateUtil.toString(attendanceManagementDto.getTrainingDate()));
 			dailyAttendanceForm
 					.setTrainingStartTime(attendanceManagementDto.getTrainingStartTime());
+			if (!attendanceManagementDto.getTrainingStartTime().isBlank()) {
+				System.out.println(attendanceManagementDto.getTrainingStartTime().substring(0,2));
+				dailyAttendanceForm.setTrainingStartTimeHH(attendanceManagementDto.getTrainingStartTime().substring(0,2));
+			}
+			if(!attendanceManagementDto.getTrainingStartTime().isBlank()) {
+				System.out.println(attendanceManagementDto.getTrainingStartTime().substring(3,5));
+				dailyAttendanceForm.setTrainingStartTimeMM(attendanceManagementDto.getTrainingStartTime().substring(3,5));
+			}
 			dailyAttendanceForm.setTrainingEndTime(attendanceManagementDto.getTrainingEndTime());
 			if (attendanceManagementDto.getBlankTime() != null) {
 				dailyAttendanceForm.setBlankTime(attendanceManagementDto.getBlankTime());
@@ -342,16 +352,8 @@ public class StudentAttendanceService {
 	 * @return 未入力の有無
 	 */
 	public boolean isTrainingTimeEmpty(Integer lmsUserId) {
-		// フォーマットパターンを設定
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/M/d");
-		Date trainingDate;
-		
-		try {
-			// 現在日付をフォーマットパターンに沿った形式に整形
-			trainingDate = sdf.parse(sdf.format(new Date()));
-		} catch (ParseException e) {
-			throw new IllegalStateException();
-		}
+		// 本日の研修日
+		Date trainingDate = attendanceUtil.getTrainingDate();
 		
 		// 過去日付の出勤時間または退勤時間が未入力であるレコード数を取得
 		int trainingTimeEmptyCount = tStudentAttendanceMapper.getTrainingTimeEmptyCount(lmsUserId, Constants.DB_FLG_FALSE, trainingDate);
