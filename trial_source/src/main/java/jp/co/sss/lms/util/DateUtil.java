@@ -701,4 +701,20 @@ public class DateUtil {
 		throw new IllegalStateException();
 	}
 
+	
+	/**
+	 * String型の時刻を任意の形式にフォーマット。
+	 * 時刻の値をフォーマットするために使用します・
+	 * 
+	 * @author 村田智大 - Task.26
+	 * @param date String型の日付時刻
+	 * @param format 任意のフォーマット形式
+	 * @return 指定された形式にフォーマットされた時刻の値
+	 * @throws ParseException
+	 */
+	public String formatTime(String date, String format) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		return sdf.format(parse(date,"HH:mm"));
+	}
+
 }

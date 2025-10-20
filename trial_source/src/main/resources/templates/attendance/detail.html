@@ -86,13 +86,12 @@
 			const minutes = ('0' + today.getMinutes()).slice(-2);
 			return hours + ':' + minutes;
 		}
-	</script>
-
-	<!-- 村田智大 - Task.25 -->
-	<p th:if="${isTrainingTimeEmpty}">
-		<script>
+		//村田智大 - Task.25
+		//過去日の勤怠に未入力がある場合にアラートを表示
+		var empty = [[${isTrainingTimeEmpty}]];
+		if(empty){
 			window.onload = showTraingTimeEmptyAlert;
-		</script>
-	</p>
+		}
+	</script>
 </body>
 </html>

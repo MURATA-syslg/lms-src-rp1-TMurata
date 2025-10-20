@@ -147,6 +147,12 @@ public class AttendanceUtil {
 		return false;
 	}
 
+	/**
+	 * 時(hour)を「00～23」の範囲で取得します。
+	 * 
+	 * @author 村田智大 - Task.26
+	 * @return 時(hour)
+	 */
 	public LinkedHashMap<Integer, String> setHourMap() {
 		LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
 		map.put(null, "");
@@ -158,6 +164,12 @@ public class AttendanceUtil {
 		return map;
 	}
 	
+	/**
+	 * 分(minute)を「00～59」の範囲で取得します。
+	 * 
+	 * @author 村田智大 - Task.26
+	 * @return 分(minute)
+	 */
 	public LinkedHashMap<Integer, String> setMinuteMap() {
 		LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
 		map.put(null, "");
@@ -168,4 +180,41 @@ public class AttendanceUtil {
 		}
 		return map;
 	}
+	
+	
+	/**
+	 * String型の日付時刻の値から、時(hour)をHH形式で取得します。
+	 * 
+	 * @author 村田智大 - Task.26
+	 * @param date 日付時刻
+	 * @return HH形式で取得された時(hour)の値
+	 */
+	public Integer getExtractHour(String date){
+		String hour;
+		try {
+			hour = dateUtil.formatTime(date,"HH");
+		} catch (ParseException e) {
+			throw new IllegalStateException();
+		}
+		return Integer.parseInt(hour);
+	}
+	
+	
+	/**
+	 * String型の日付時刻の値から、分(minute)を取得します。
+	 * 
+	 * @author 村田智大 - Task.26
+	 * @param date
+	 * @return 取得された分(minute)の値
+	 */
+	public Integer getExtractMinute(String date){
+		String minute;
+		try {
+			minute = dateUtil.formatTime(date,"mm");
+		} catch (ParseException e) {
+			throw new IllegalStateException();
+		}
+		return Integer.parseInt(minute);
+	}
+	
 }
