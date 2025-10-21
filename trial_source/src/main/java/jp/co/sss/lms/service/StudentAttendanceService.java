@@ -314,7 +314,7 @@ public class StudentAttendanceService {
 			TrainingTime trainingStartTime = null;
 			// 村田智大 - Task.26
 			// 出勤時刻に時(hour)と分(minute)が入力されていれば、HH:mmの形式に整形してセット
-			if (dailyAttendanceForm.getTrainingStartTimeHour() != null || dailyAttendanceForm.getTrainingStartTimeMinute() != null) {
+			if (dailyAttendanceForm.getTrainingStartTimeHour() != null && dailyAttendanceForm.getTrainingStartTimeMinute() != null) {
 			
 				trainingStartTime = new TrainingTime(
 						dailyAttendanceForm.getTrainingStartTimeHour(),
@@ -322,20 +322,20 @@ public class StudentAttendanceService {
 				);
 				tStudentAttendance.setTrainingStartTime(trainingStartTime.getFormattedString());
 			} else {
-				tStudentAttendance.setTrainingStartTime(null);
+				tStudentAttendance.setTrainingStartTime("");
 			}
 			// 退勤時刻整形
 			TrainingTime trainingEndTime = null;
 			// 村田智大 - Task.26
 			// 退勤時刻に時(hour)と分(minute)が入力されていれば、HH:mmの形式に整形してセット
-			if (dailyAttendanceForm.getTrainingEndTimeHour() != null || dailyAttendanceForm.getTrainingEndTimeMinute() != null) {
+			if (dailyAttendanceForm.getTrainingEndTimeHour() != null && dailyAttendanceForm.getTrainingEndTimeMinute() != null) {
 				trainingEndTime = new TrainingTime(
 						dailyAttendanceForm.getTrainingEndTimeHour(),
 						dailyAttendanceForm.getTrainingEndTimeMinute()
 				);
 				tStudentAttendance.setTrainingEndTime(trainingEndTime.getFormattedString());
 			} else {
-				tStudentAttendance.setTrainingStartTime(null);
+				tStudentAttendance.setTrainingEndTime("");
 			}
 			// 中抜け時間
 			tStudentAttendance.setBlankTime(dailyAttendanceForm.getBlankTime());
@@ -381,7 +381,7 @@ public class StudentAttendanceService {
 		Date trainingDate = attendanceUtil.getTrainingDate();
 		
 		// 過去日付の出勤時間または退勤時間が未入力であるレコード数を取得
-		int trainingTimeEmptyCount = tStudentAttendanceMapper.getTrainingTimeEmptyCount(lmsUserId, Constants.DB_FLG_FALSE, trainingDate);
+		int trainingTimeEmptyCount = tStudentAttendanceMapper.notEnterCount(lmsUserId, Constants.DB_FLG_FALSE, trainingDate);
 		
 		if (trainingTimeEmptyCount > 0) {
 			return true;

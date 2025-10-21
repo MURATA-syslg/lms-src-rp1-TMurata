@@ -73,6 +73,6 @@ public interface TStudentAttendanceMapper {
 	 * @param trainingDate 現在日時
 	 * @return レコード数
 	 */
-	Integer getTrainingTimeEmptyCount(@Param("lmsUserId") Integer lmsUserId,
+	Integer notEnterCount(@Param("lmsUserId") Integer lmsUserId,
 			@Param("deleteFlg") Short deleteFlg, @Param("trainingDate") Date trainingDate);
 }

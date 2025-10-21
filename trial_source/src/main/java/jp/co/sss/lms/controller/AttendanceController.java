@@ -75,6 +75,9 @@ public class AttendanceController {
 		List<AttendanceManagementDto> attendanceManagementDtoList = studentAttendanceService
 				.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
 		model.addAttribute("attendanceManagementDtoList", attendanceManagementDtoList);
+		// 村田智大 - Task.25
+		// 過去日付の出勤時間または退勤時間が未入力のものがあるか確認し、モデルに結果を格納
+		model.addAttribute("isTrainingTimeEmpty",studentAttendanceService.isTrainingTimeEmpty(loginUserDto.getLmsUserId()));
 
 		return "attendance/detail";
 	}
@@ -100,6 +103,9 @@ public class AttendanceController {
 		List<AttendanceManagementDto> attendanceManagementDtoList = studentAttendanceService
 				.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
 		model.addAttribute("attendanceManagementDtoList", attendanceManagementDtoList);
+		// 村田智大 - Task.25
+		// 過去日付の出勤時間または退勤時間が未入力のものがあるか確認し、モデルに結果を格納
+		model.addAttribute("isTrainingTimeEmpty",studentAttendanceService.isTrainingTimeEmpty(loginUserDto.getLmsUserId()));
 
 		return "attendance/detail";
 	}
@@ -144,6 +150,9 @@ public class AttendanceController {
 		List<AttendanceManagementDto> attendanceManagementDtoList = studentAttendanceService
 				.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
 		model.addAttribute("attendanceManagementDtoList", attendanceManagementDtoList);
+		// 村田智大 - Task.25
+		// 過去日付の出勤時間または退勤時間が未入力のものがあるか確認し、モデルに結果を格納
+		model.addAttribute("isTrainingTimeEmpty",studentAttendanceService.isTrainingTimeEmpty(loginUserDto.getLmsUserId()));
 
 		return "attendance/detail";
 	}
