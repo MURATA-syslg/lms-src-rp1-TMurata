@@ -389,4 +389,106 @@ public class StudentAttendanceService {
 		
 		return false;
 	}
+	
+	/**
+	 * 勤怠情報直接入力画面からの更新前入力チェック
+	 * @author 村田智大 - Task.27
+	 * @param attendanceForm
+	 * @return エラーメッセージのリスト
+	 */
+	public List<String> updateCheck(AttendanceForm attendanceForm) {
+		List<String> errorList = new ArrayList<>();
+		int index = 1;
+		for (DailyAttendanceForm dailyAttendanceForm : attendanceForm.getAttendanceList()) {
+			// 備考の文字数が100文字よりも多い場合
+			if (dailyAttendanceForm.getNote().length() > 100) {
+				errorList.add(messageUtil.getMessage(Constants.VALID_KEY_MAXLENGTH, new String[] {"備考", Constants.NOTE_MAX_LENGTH}));
+			}
+			
+			if (dailyAttendanceForm.getTrainingStartTimeHour() == null) {
+				//出勤時間（時）が入力なし かつ 出勤時間（分）が入力ありの場合
+				if (dailyAttendanceForm.getTrainingStartTimeMinute() != null) {
+					errorList.add(messageUtil.getMessage(Constants.INPUT_INVALID,new String[] { "出勤時間" }));
+				}
+			} else {
+				//出勤時間（時）が入力あり かつ 出勤時間（分）が入力なしの場合
+				if (dailyAttendanceForm.getTrainingStartTimeMinute() == null) {
+					errorList.add(messageUtil.getMessage(Constants.INPUT_INVALID,new String[] { "出勤時間" }));
+				}
+			}
+			
+			if (dailyAttendanceForm.getTrainingEndTimeHour() == null) {
+				//退勤時間（時）が入力なし かつ 退勤時間（分）が入力ありの場合
+				if (dailyAttendanceForm.getTrainingEndTimeMinute() != null) {
+					errorList.add(messageUtil.getMessage(Constants.INPUT_INVALID,new String[] { "退勤時間" }));
+				}
+			} else {
+				//退勤時間（時）が入力あり かつ 退勤時間（分）が入力なしの場合
+				if (dailyAttendanceForm.getTrainingEndTimeMinute() == null) {
+					errorList.add(messageUtil.getMessage(Constants.INPUT_INVALID,new String[] { "退勤時間" }));
+				}
+			}
+			
+			// 出勤時刻整形
+			TrainingTime trainingStartTime = null;
+			// 出勤時刻に時(hour)と分(minute)が入力されていれば、HH:mmの形式に整形してセット
+			if (dailyAttendanceForm.getTrainingStartTimeHour() != null && dailyAttendanceForm.getTrainingStartTimeMinute() != null) {
+				trainingStartTime = new TrainingTime(
+						dailyAttendanceForm.getTrainingStartTimeHour(),
+						dailyAttendanceForm.getTrainingStartTimeMinute()
+				);
+			}
+			
+			// 退勤時刻整形
+			TrainingTime trainingEndTime = null;
+			// 退勤時刻に時(hour)と分(minute)が入力されていれば、HH:mmの形式に整形してセット
+			if (dailyAttendanceForm.getTrainingEndTimeHour() != null && dailyAttendanceForm.getTrainingEndTimeMinute() != null) {
+				trainingEndTime = new TrainingTime(
+						dailyAttendanceForm.getTrainingEndTimeHour(),
+						dailyAttendanceForm.getTrainingEndTimeMinute()
+				);
+				
+			}
+			// 出勤時間に入力なし かつ 退勤時間に入力ありの場合
+			if (trainingStartTime == null && trainingEndTime != null) {
+				errorList.add(messageUtil.getMessage(Constants.VALID_KEY_ATTENDANCE_PUNCHINEMPTY));
+			}
+			
+			if (trainingStartTime != null && trainingEndTime != null) {
+				// 出勤時間 ＞ 退勤時間 の場合
+				if (trainingStartTime.compareTo(trainingEndTime) == 1) {
+					errorList.add(messageUtil.getMessage(Constants.VALID_KEY_ATTENDANCE_TRAININGTIMERANGE, new String[] { String.valueOf(index) }));
+				} else {
+					TrainingTime blankTime = attendanceUtil.calcBlankTime(dailyAttendanceForm.getBlankTime());
+					TrainingTime workingTime = trainingEndTime.subtract(trainingStartTime);
+					// 中抜け時間が勤務時間を超える場合
+					if (blankTime.compareTo(workingTime) == 1) {
+						errorList.add(messageUtil.getMessage(Constants.VALID_KEY_ATTENDANCE_BLANKTIMEERROR));
+					}
+				}
+			}
+			
+			index++;
+			
+		}
+		
+		return errorList;
+	}
+	
+	/**
+	 * 勤怠情報直接入力画面にセットする下記のセレクトボックスの情報を取得
+	 * ・中抜け時間
+	 * ・時(hour)
+	 * ・分(minute)
+	 * @author 村田智大 - Task.27
+	 * @param attendanceForm
+	 * @return
+	 */
+	public AttendanceForm setAttendanceFormTimeMaps(AttendanceForm attendanceForm) {
+		attendanceForm.setBlankTimes(attendanceUtil.setBlankTime());
+		attendanceForm.setHourMaps(attendanceUtil.setHourMap());
+		attendanceForm.setMinuteMaps(attendanceUtil.setMinuteMap());
+		
+		return attendanceForm;
+	}
 }

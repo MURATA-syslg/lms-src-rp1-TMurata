@@ -136,12 +136,23 @@ public class AttendanceController {
 	 * @param attendanceForm
 	 * @param model
 	 * @param result
-	 * @return 勤怠管理画面
+	 * @return 
+	 * ・勤怠管理画面：正常時
+	 * ・勤怠情報直接入力画面：エラー発生時
 	 * @throws ParseException
 	 */
 	@RequestMapping(path = "/update", params = "complete", method = RequestMethod.POST)
 	public String complete(AttendanceForm attendanceForm, Model model, BindingResult result)
 			throws ParseException {
+
+		// 村田智大 - Task.27
+		// 更新前に入力チェックを行いエラーが1つでもあれば、勤怠情報直接入力画面に遷移してエラー内容を表示
+		List<String> errorList = studentAttendanceService.updateCheck(attendanceForm);
+		if(!errorList.isEmpty()) {
+			model.addAttribute("errorList", errorList);
+			model.addAttribute("attendanceForm", studentAttendanceService.setAttendanceFormTimeMaps(attendanceForm));
+			return "attendance/update";
+		}
 
 		// 更新
 		String message = studentAttendanceService.update(attendanceForm);

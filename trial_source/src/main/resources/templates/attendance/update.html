@@ -17,7 +17,12 @@
 			<h2><small>途中退校日：${dispLeaveDate}</small></h2>
 		</th:block>
 	</th:block>
-
+	<!-- 村田智大 - Task.27 エラーメッセージを表示 -->
+	<th:block th:if="${not #strings.isEmpty(error)}" id="error" th:each="error : ${errorList}">
+		<ul style="padding-left: 0; list-style: none;">
+			<li><span th:text="'*' + '&nbsp' + ${error}" class="help-inline error"></span></li>
+		</ul>
+	</th:block>
 	<div class="row">
 		<div class="bs-component col-sm-12">
 
@@ -101,12 +106,22 @@
 					<th:block th:if="${session.loginUserDto.role != '0001'}">
 						<input type="submit" value="戻る" name="indexCompany" class="btn btn-default" />
 					</th:block>
-					<input type="submit" value="更新" name="complete" class="btn btn-info" />
+					<input type="submit" value="更新" name="complete" class="btn btn-info" onclick="return confirmCheck()"/>
 				</div>
 
 			</form>
 		</div>
 	</div>
 
+	<!-- 村田智大 - Task.27 確認ダイアログを表示-->
+	<script>
+		function confirmCheck(){
+			if (confirm("更新します。よろしいですか？")) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	</script>
 </body>
 </html>

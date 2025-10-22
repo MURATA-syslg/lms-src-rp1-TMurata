@@ -362,5 +362,11 @@ public interface Constants {
 	/** 管理者フラグ */
 	public static final Short ADMIN_FLG_FALSE = 0;
 	public static final Short ADMIN_FLG_TRUE = 1;
+	
+	/**
+	 * 村田智大 - Task.27
+	 * 勤怠の備考欄に入力可能な文字数
+	 */
+	public static final String NOTE_MAX_LENGTH = "100";
 
 }
