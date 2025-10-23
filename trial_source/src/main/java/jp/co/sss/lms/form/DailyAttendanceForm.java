@@ -1,5 +1,7 @@
 package jp.co.sss.lms.form;
 
+import java.util.LinkedHashMap;
+
 import lombok.Data;
 
 /**
@@ -66,4 +68,9 @@ public class DailyAttendanceForm {
 	 * 退勤時間の分(minute)
 	 */
 	private Integer trainingEndTimeMinute;
+	/**
+	 * @author 村田智大 - Task.27
+	 * 入力エラー管理用マップ
+	 */
+	private LinkedHashMap<String, Boolean> isErrorMaps;
 }

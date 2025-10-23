@@ -56,7 +56,8 @@
 								<td class="w200">[[${dailyAttendanceForm.sectionName}]]</td>
 								<!-- 村田智大 - Task.26-->
 								<td class="w70">
-									<select th:name="|attendanceList[${stat.index}].trainingStartTimeHour|" class="form-control">
+									<select th:name="|attendanceList[${stat.index}].trainingStartTimeHour|" class="form-control"
+										th:classappend="${dailyAttendanceForm.isErrorMaps?.get('trainingStartTimeHour')} ? ' has-error' : ''">
 										<option th:each="hourMap : ${attendanceForm.hourMaps}" th:value="${hourMap.key}" th:inlne="text" class="form-control" 
 											th:selected="${hourMap.key == dailyAttendanceForm.trainingStartTimeHour}">[[${hourMap.value}]]</option>
 									</select>
@@ -64,14 +65,16 @@
 								<td>:</td>
 								<!-- 村田智大 - Task.26-->
 								<td class="w70">
-									<select th:name="|attendanceList[${stat.index}].trainingStartTimeMinute|" class="form-control">
+									<select th:name="|attendanceList[${stat.index}].trainingStartTimeMinute|" class="form-control"
+										th:classappend="${dailyAttendanceForm.isErrorMaps?.get('trainingStartTimeMinute')} ? ' has-error' : ''">
 										<option th:each="minuteMap : ${attendanceForm.minuteMaps}" th:value="${minuteMap.key}" th:inlne="text" class="form-control" 
 											th:selected="${minuteMap.key == dailyAttendanceForm.trainingStartTimeMinute}">[[${minuteMap.value}]]</option>
 									</select>
 								</td>
 								<!-- 村田智大 - Task.26-->
 								<td class="w70">
-									<select th:name="|attendanceList[${stat.index}].trainingEndTimeHour|" class="form-control">
+									<select th:name="|attendanceList[${stat.index}].trainingEndTimeHour|" class="form-control"
+										th:classappend="${dailyAttendanceForm.isErrorMaps?.get('trainingEndTimeHour')} ? ' has-error' : ''">
 										<option th:each="hourMap : ${attendanceForm.hourMaps}" th:value="${hourMap.key}" th:inlne="text" class="form-control" 
 											th:selected="${hourMap.key == dailyAttendanceForm.trainingEndTimeHour}">[[${hourMap.value}]]</option>
 									</select>
@@ -79,20 +82,23 @@
 								<td>:</td>
 								<!-- 村田智大 - Task.26-->
 								<td class="w70">
-									<select th:name="|attendanceList[${stat.index}].trainingEndTimeMinute|" class="form-control">
+									<select th:name="|attendanceList[${stat.index}].trainingEndTimeMinute|" class="form-control"
+										th:classappend="${dailyAttendanceForm.isErrorMaps?.get('trainingEndTimeMinute')} ? ' has-error' : ''">
 										<option th:each="minuteMap : ${attendanceForm.minuteMaps}" th:value="${minuteMap.key}" th:inlne="text" class="form-control" 
 											th:selected="${minuteMap.key == dailyAttendanceForm.trainingEndTimeMinute}">[[${minuteMap.value}]]</option>
 									</select>
 								</td>
 								<td class="w80">
-									<select th:name="|attendanceList[${stat.index}].blankTime|" class="form-control">
+									<select th:name="|attendanceList[${stat.index}].blankTime|" class="form-control"
+										th:classappend="${dailyAttendanceForm.isErrorMaps?.get('blankTime')} ? ' has-error' : ''">
 										<option th:each="blankTime : ${attendanceForm.blankTimes}" th:value="${blankTime.key}" th:inlne="text" class="form-control" 
 											th:selected="${blankTime.key == dailyAttendanceForm.blankTime}">[[${blankTime.value}]]</option>
 									</select>
 								</td>
 								<td class="w70">[[${dailyAttendanceForm.statusDispName}]]</td>
 								<td class="w140">
-									<input type="text" th:name="|attendanceList[${stat.index}].note|" th:value="${dailyAttendanceForm.note}" class="form-control"></input>
+									<input type="text" th:name="|attendanceList[${stat.index}].note|" th:value="${dailyAttendanceForm.note}" class="form-control"
+										th:classappend="${dailyAttendanceForm.isErrorMaps?.get('note')} ? ' has-error' : ''"></input>
 								</td>
 							</tr>
 						</th:block>
@@ -123,5 +129,13 @@
 			}
 		}
 	</script>
+	
+	<!-- 村田智大 - Task.27 入力エラー時のスタイル -->
+	<style>
+		.has-error {
+  			border: 1px solid red;
+  			background: rgb(255, 208, 208);
+		}
+	</style>
 </body>
 </html>

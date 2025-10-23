@@ -189,7 +189,7 @@ public class AttendanceUtil {
 	 * @param date 日付時刻
 	 * @return HH形式で取得された時(hour)の値
 	 */
-	public Integer getExtractHour(String date){
+	public Integer getHour(String date){
 		String hour;
 		try {
 			hour = dateUtil.formatTime(date,"HH");
@@ -207,7 +207,7 @@ public class AttendanceUtil {
 	 * @param date
 	 * @return 取得された分(minute)の値
 	 */
-	public Integer getExtractMinute(String date){
+	public Integer getMinute(String date){
 		String minute;
 		try {
 			minute = dateUtil.formatTime(date,"mm");
