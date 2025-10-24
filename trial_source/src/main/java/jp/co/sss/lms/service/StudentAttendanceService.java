@@ -403,7 +403,9 @@ public class StudentAttendanceService {
 		for (DailyAttendanceForm dailyAttendanceForm : attendanceForm.getAttendanceList()) {
 			dailyAttendanceForm.setIsErrorMaps(new LinkedHashMap<>());
 			// 備考の文字数が100文字よりも多い場合
-			if (dailyAttendanceForm.getNote().length() > 100) {
+			System.out.println(dailyAttendanceForm.getNote());
+			System.out.println(dailyAttendanceForm.getNote().length());
+			if (100 < dailyAttendanceForm.getNote().length()) {
 				errorList.add(messageUtil.getMessage(Constants.VALID_KEY_MAXLENGTH, new String[] {"備考", Constants.NOTE_MAX_LENGTH}));
 				dailyAttendanceForm.getIsErrorMaps().put("note", true);
 			}
@@ -471,7 +473,7 @@ public class StudentAttendanceService {
 					dailyAttendanceForm.getIsErrorMaps().put("trainingStartTimeMinute", true);
 					dailyAttendanceForm.getIsErrorMaps().put("trainingEndTimeHour", true);
 					dailyAttendanceForm.getIsErrorMaps().put("trainingEndTimeMinute", true);
-				} else {
+				} else if (dailyAttendanceForm.getBlankTime() != null) {
 					TrainingTime blankTime = attendanceUtil.calcBlankTime(dailyAttendanceForm.getBlankTime());
 					TrainingTime workingTime = trainingEndTime.subtract(trainingStartTime);
 					// 中抜け時間が勤務時間を超える場合
