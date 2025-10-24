@@ -32,7 +32,7 @@
 					<thead style="display:block;">
 						<tr>
 							<th class="w140">日付</th>
-							<th class="w200">コース内容</th>
+							<th class="w260">コース内容</th>
 							<th class="w180" colspan="3">出勤</th>
 							<th class="w180" colspan="3">退勤</th>
 							<th class="w80">中抜け時間</th>
@@ -54,6 +54,8 @@
 								</th:block>
 								<td class="w140">[[${dailyAttendanceForm.dispTrainingDate}]]</td>
 								<td class="w200">[[${dailyAttendanceForm.sectionName}]]</td>
+								<!-- 村田智大 - Task.28 -->
+								<td><input type="button" class="btn btn-success default-button" value="定時" th:onclick="|setRegularTime('${stat.index}')|"/></td>
 								<!-- 村田智大 - Task.26-->
 								<td class="w70">
 									<select th:name="|attendanceList[${stat.index}].trainingStartTimeHour|" class="form-control"
@@ -119,14 +121,30 @@
 		</div>
 	</div>
 
-	<!-- 村田智大 - Task.27 確認ダイアログを表示-->
-	<script>
+	<script type="text/javascript" th:inline="javascript">
+		// 村田智大 - Task.27 確認ダイアログを表示
 		function confirmCheck(){
 			if (confirm("更新します。よろしいですか？")) {
 				return true;
 			} else {
 				return false;
 			}
+		}
+		
+		// 村田智大 - Task.28 定時ボタン押下時
+		function setRegularTime(index){
+			// 出勤時間(hour)に「09」をセット
+			const trainingStartTimeHour = document.getElementsByName('attendanceList['+index+'].trainingStartTimeHour');
+			trainingStartTimeHour[0].options.selectedIndex = '10';
+			// 出勤時間(minute)に「00」をセット
+			const trainingStartTimeMinute = document.getElementsByName('attendanceList['+index+'].trainingStartTimeMinute');
+			trainingStartTimeMinute[0].options.selectedIndex = '1';
+			// 退勤時間(hour)に「18」をセット
+			const trainingEndTimeHour = document.getElementsByName('attendanceList['+index+'].trainingEndTimeHour');
+			trainingEndTimeHour[0].options.selectedIndex = '19';
+			// 退勤時間(minute)に「00」をセット
+			const trainingEndTimeMinute = document.getElementsByName('attendanceList['+index+'].trainingEndTimeMinute');
+			trainingEndTimeMinute[0].options.selectedIndex = '1';
 		}
 	</script>
 	
